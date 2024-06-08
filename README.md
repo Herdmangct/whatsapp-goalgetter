@@ -1,4 +1,4 @@
-# whatsapp-goalgetter
+# GoalGetter 24/7 AI Accountability Coach
 
 ## Overview
 - This is a repo for the Google Cloud functions used for our goalgetter AI coach. The coach is programmed to message you when you've scheduled in to hit your goals.
