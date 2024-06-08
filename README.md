@@ -11,3 +11,21 @@
 - Twilio
 - Bland.ai
 - OpenAI Assistants 
+
+
+## Database schema 
+users
+- accountabilityPartnerName: string
+- accountabilityPartnerPhoneNumber: string
+- accountabilityPartnerRelationship: string
+- assistantId: string
+- lastNotified: datetime
+- name: string
+- notified: boolean
+- phoneNumber: string
+- responded: boolean
+- scheduledTime: datetime
+- threadId: string
+- sleepScore: integer
+- exercised: boolean
+
