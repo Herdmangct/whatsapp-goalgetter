@@ -3,6 +3,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const OpenAI = require('openai');
 const twilio = require('twilio');
+require('dotenv').config();
 
 // Initialize Firebase admin SDK
 admin.initializeApp();
@@ -12,8 +13,11 @@ const db = admin.firestore();
 const openai = new OpenAI(api_key = process.env.OPENAI_API_KEY);
 const twilioClient = new twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
+// testing
+const v2 = require("firebase-functions/v2")
+exports.testScheduledMessage = v2.https.onRequest(async (request, response) => {
 // Scheduled function to run every 5 minutes
-exports.scheduledMessage = functions.pubsub.schedule('every 5 minutes').onRun(async (context) => {
+// exports.scheduledMessage = functions.pubsub.schedule('every 5 minutes').onRun(async (context) => {
     // Retrieve all user documents
     const snapshot = await db.collection('users').get();
     snapshot.forEach(async (doc) => {
@@ -50,6 +54,10 @@ exports.scheduledMessage = functions.pubsub.schedule('every 5 minutes').onRun(as
             });
         }
     });
+
+    // testing
+    response.send("Success"); //testing 
+    return null; // testing 
 });
 
 // Function to send a WhatsApp message using Twilio
