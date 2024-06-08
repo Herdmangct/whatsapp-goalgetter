@@ -37,10 +37,10 @@ exports.messageResponse = functions.https.onRequest(async (req, res) => {
 });
 
 // testing
-const v2 = require("firebase-functions/v2")
-exports.testScheduledMessage = v2.https.onRequest(async (request, response) => {
+// const v2 = require("firebase-functions/v2")
+// exports.testScheduledMessage = v2.https.onRequest(async (request, response) => {
 // Scheduled function to run every 5 minutes
-// exports.scheduledMessage = functions.pubsub.schedule('every 5 minutes').onRun(async (context) => {
+exports.scheduledMessage = functions.pubsub.schedule('every 5 minutes').onRun(async (context) => {
     // Retrieve all user documents
 
     functions.logger.log("getting users");
@@ -53,8 +53,8 @@ exports.testScheduledMessage = v2.https.onRequest(async (request, response) => {
         const scheduledTime = new Date(user.scheduledTime);
 
         // Check if it's time to notify the user
-        // if (now >= scheduledTime && !user.notified) {
-        if (true) { 
+        if (now >= scheduledTime && !user.notified) {
+        // if (true) { // testing
             // Add a message to the user's assistant thread
             functions.logger.log("creating message");
             await openai.beta.threads.messages.create(user.threadId, {
@@ -220,28 +220,3 @@ async function callUser(phoneNumber) {
         console.error('Error calling user:', error);
     }
 }
-
-// async function sendWhatsAppMessage(to, message) {
-//     try {
-//         await twilioClient.messages.create({
-//             body: message,
-//             from: process.env.TWILIO_PHONE_NUMBER, // Update this with your Twilio phone number
-//             to: to
-//         });
-//     } catch (error) {
-//         console.error('Error sending text message:', error);
-//     }
-// }
-
-// Function to send a WhatsApp message using Twilio
-// async function sendWhatsAppMessage(to, message) {
-//     try {
-//         await twilioClient.messages.create({
-//             body: message,
-//             from: `whatsapp:${process.env.TWILIO_WHATSAPP_NUMBER}`,
-//             to: `whatsapp:${to}`
-//         });
-//     } catch (error) {
-//         console.error('Error sending WhatsApp message:', error);
-//     }
-// }
