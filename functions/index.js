@@ -132,7 +132,7 @@ async function sendWhatsAppMessage(to, message, doc, user) {
         });
 
         // Wait for 10 seconds and check if the user responded
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 15; i++) {
             functions.logger.log(`wait ${i+1} seconds`);
             await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
 
