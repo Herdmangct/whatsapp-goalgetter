@@ -14,6 +14,28 @@ const db = admin.firestore();
 const openai = new OpenAI(api_key = process.env.OPENAI_API_KEY);
 const twilioClient = new twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
+// Function to handle health data from Sahha API
+exports.healthDataWebhook = functions.https.onRequest(async (req, res) => {
+    try {
+        const { userId, last_sleep_score, last_exercise } = req.body;
+
+        if (!userId || last_sleep_score === undefined || !last_exercise) {
+            return res.status(400).send('Missing required fields');
+        }
+
+        // Update the user document in Firestore
+        await db.collection('users').doc(userId).update({
+            last_sleep_score: parseInt(last_sleep_score, 10),
+            last_exercise: new Date(last_exercise)
+        });
+
+        res.status(200).send('User health data updated successfully');
+    } catch (error) {
+        console.error('Error updating user health data:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 // Firebase function to handle incoming messages from Twilio
 exports.messageResponse = functions.https.onRequest(async (req, res) => {
     const from = req.body.From;
